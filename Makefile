@@ -3,7 +3,7 @@ CC=clang
 EMSDK_VERSION=3.1.7
 EMSDK_DOCKER_IMAGE=emscripten/emsdk:$(EMSDK_VERSION)
 EMCC=EMSDK_VERSION=$(EMSDK_VERSION) EMSDK_DOCKER_IMAGE=$(EMSDK_DOCKER_IMAGE) scripts/emcc.sh
-GENERATE_TS=$(VARIANT_GENERATE_TS_ENV) npx ts-node generate.ts
+GENERATE_TS=$(VARIANT_GENERATE_TS_ENV) npx ts-node -O {\"module\":\"CommonJS\"} generate.ts
 PRETTIER=npx prettier
 
 DEBUG_MAKE=1
@@ -38,6 +38,7 @@ forVariant = $(foreach VAR,$(call varsForVariant,$(1)),$($(VAR)))
 QUICKJS_ROOT=quickjs
 WRAPPER_ROOT=c
 BUILD_ROOT=build
+PACK_ROOT=dist_pack
 BUILD_WRAPPER=$(BUILD_ROOT)/wrapper
 BUILD_QUICKJS=$(BUILD_ROOT)/quickjs
 BUILD_TS=ts/generated
@@ -61,6 +62,7 @@ CFLAGS_WASM+=-s EXPORT_NAME=QuickJSRaw
 CFLAGS_WASM+=-s INVOKE_RUN=0
 CFLAGS_WASM+=-s ALLOW_MEMORY_GROWTH=1
 CFLAGS_WASM+=-s ALLOW_TABLE_GROWTH=1
+CFLAGS_WASM+=--extern-post-js exportQSnippet.txt
 
 # Empscripten options for asyncify variant
 # https://emscripten.org/docs/porting/asyncify.html
@@ -74,7 +76,7 @@ GENERATE_TS_ENV_ASYNCIFY+=ASYNCIFY=true
 CFLAGS_RELEASE=-Oz
 CFLAGS_RELEASE+=-flto
 
-CFLAGS_WASM_RELEASE+=-s SINGLE_FILE=1
+CFLAGS_WASM_RELEASE+=-s SINGLE_FILE=0
 CFLAGS_WASM_RELEASE+=--closure 1
 CFLAGS_WASM_RELEASE+=-s FILESYSTEM=0
 
@@ -147,6 +149,7 @@ clean-generate:
 clean: clean-generate
 	rm -rfv $(BUILD_ROOT)
 	rm -rf  $(WRAPPER_ROOT)/interface.h
+	rm -rf  $(PACK_ROOT)
 
 GENERATE_VARIANTS=$(addprefix generate.,$(WASM_VARIANTS))
 generate: $(GENERATE_VARIANTS)
