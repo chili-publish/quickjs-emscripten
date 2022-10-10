@@ -5893,3 +5893,4 @@ else if (typeof define === 'function' && define['amd'])
   define([], function() { return QuickJSRaw; });
 else if (typeof exports === 'object')
   exports["QuickJSRaw"] = QuickJSRaw;
+export default QuickJSRaw;

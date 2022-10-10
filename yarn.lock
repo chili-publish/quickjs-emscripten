@@ -4888,6 +4888,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"quickjs-emscripten-sync@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "quickjs-emscripten-sync@npm:1.5.1"
+  peerDependencies:
+    quickjs-emscripten: "*"
+  checksum: fc7550251f35ee81a83d0bf6271bb4062c4f0bfb00ce78d952f92ab4885bd3882e945a4e11d98d81ae6ccc958e9158cd162d21c7a3a7fb3d0c9d5e075a8f6e73
+  languageName: node
+  linkType: hard
+
 "quickjs-emscripten@workspace:.":
   version: 0.0.0-use.local
   resolution: "quickjs-emscripten@workspace:."
@@ -4904,6 +4913,7 @@ __metadata:
     node-fetch-commonjs: ^3.1.1
     prettier: 2.5.1
     process: ^0.11.10
+    quickjs-emscripten-sync: ^1.5.1
     source-map-support: ^0.5.16
     ts-loader: ^9.4.1
     ts-node: ^10.7.0

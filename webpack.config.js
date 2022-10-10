@@ -8,8 +8,11 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist_pack'),
         filename: 'bundle.js',
-        library: 'chili_quickjs',
-        libraryTarget: 'assign'
+        library: {
+            name: 'chili_quickjs',
+            type: 'assign-properties'
+        }
+        
     },
     resolve: {
         extensions: ['.ts', '.js'],
