@@ -28,10 +28,24 @@ const _createContext = async (ctx?: QuickJSContext): Promise<Arena> => {
     }
 
     return new Arena(vm, {
+        /** 
+         * Running out of functions on QuickJS side
+         * See: https://github.com/justjake/quickjs-emscripten/issues/98 
+         * See: https://chilipublishintranet.atlassian.net/browse/EDT-1173
+         **/
+        experimentalContextEx: true,
+        /**
+         * Experimental fix to drastically reduce memory retainment in QuickJS
+         * See: https://github.com/reearth/quickjs-emscripten-sync/issues/30
+         * See: https://chilipublishintranet.atlassian.net/browse/EDT-1190
+         */
+        syncEnabled: false,
         isMarshalable: (o: any) => {
+            // Prevent marshalling the whole flutter/dart app code!
             if (o && o.hasOwnProperty && o.hasOwnProperty('$dart_jsFunction')) {
                 return false;
             }
+            // Window can't be marshalled
             if (o && o instanceof Window) return false;
             return true;
         },

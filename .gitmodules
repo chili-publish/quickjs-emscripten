@@ -1,4 +1,5 @@
+
 [submodule "quickjs-emscripten-sync"]
 	path = quickjs-emscripten-sync
-	url = https://github.com/reearth/quickjs-emscripten-sync
-	# branch = your_branch_name
+	url = https://github.com/Matthiee/quickjs-emscripten-sync
+	branch = disable-sync-mode
